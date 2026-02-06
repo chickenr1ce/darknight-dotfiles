@@ -1,0 +1,165 @@
+{
+    "position": "top",
+    "height": 24,
+    "spacing": 4,
+    "margin-bottom": -12,
+    "modules-left": [
+        "clock",
+        "hyprland/workspaces",
+        "cava"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "mpris",
+        "cpu",
+        "wireplumber",
+        "custom/notification",
+        "tray",
+        "custom/powermenu"
+    ],
+    "clock": {
+        "interval": 60,
+        "format": "{:%H:%M}",
+        "max-length": 25
+    },
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "all-outputs": false,
+        "active-only": false,
+        "persistent-workspaces": {
+            "DP-1": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "HDMI-A-2": [
+                6,
+                7,
+                8,
+                9,
+                10
+            ]
+        }
+    },
+    "cava": {
+        // "cava_config": "$XDG_CONFIG_HOME/cava/cava.conf",
+        "framerate": 30,
+        "autosens": 1,
+        "bars": 14,
+        "lower_cutoff_freq": 50,
+        "higher_cutoff_freq": 10000,
+        "method": "pipewire",
+        "source": "auto",
+        "stereo": true,
+        "bar_delimiter": 0,
+        "noise_reduction": 0.77,
+        "input_delay": 2,
+        "hide_on_silence": true,
+        "format-icons": [
+            "▁",
+            "▂",
+            "▃",
+            "▄",
+            "▅",
+            "▆",
+            "▇",
+            "█"
+        ],
+        "actions": {
+            "on-click-right": "mode"
+        }
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    },
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 40,
+        "min-length": 0,
+        "all-outputs": true
+    },
+    "mpris": {
+        "format": " {status_icon} {dynamic}",
+        "interval": 1,
+        "dynamic-len": 40,
+        "status-icons": {
+            "playing": "▶",
+            "paused": "⏸",
+            "stopped": ""
+        },
+        "dynamic-order": [
+            "title",
+            "artist"
+        ],
+        "ignored-players": [
+            "firefox"
+        ]
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": true
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-muted": "",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+        "format-icons": {
+            "headphone": "",
+            "default": [
+                "",
+                ""
+            ]
+        }
+    },
+    "wireplumber": {
+        "scroll-step": 5, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}% ",
+        "format-bluetooth-muted": " {icon}",
+        "format-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "~/.config/waybar/scripts/toggle_audio.sh",
+        "on-click-right": "pavucontrol"
+    },
+    "custom/notification": {
+        "tooltip": true,
+        "format": "",
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        //"on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+    "custom/powermenu": {
+        "format": "<span size='13pt'>󰐥</span>",
+        "on-click": "~/.config/rofi/powermenu/type-1/powermenu.sh",
+        "tooltip": false
+    }
+}
