@@ -65,7 +65,7 @@ window#waybar {
 }
 
 #workspaces button.active {
-    color: @purple;
+    color: @lavender;
     background-color: @background-secondary;
     margin: 4px 2px;
 }

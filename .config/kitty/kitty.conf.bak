@@ -37,6 +37,6 @@ map ctrl+kp_0 change_font_size all 0
 
 
 # BEGIN_KITTY_THEME
-# Base2Tone Lavender Dark
-include Yorumi-Kraken.conf
+# Yorumi Kraken
+include current-theme.conf
 # END_KITTY_THEME
