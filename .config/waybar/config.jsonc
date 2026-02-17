@@ -21,7 +21,7 @@
     ],
     "clock": {
         "interval": 60,
-        "format": "{:%H:%M}",
+        "format": "{:%d.%m %H:%M}",
         "max-length": 25
     },
     "hyprland/workspaces": {
