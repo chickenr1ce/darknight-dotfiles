@@ -28,23 +28,8 @@
         },
         "hyprland/workspaces": {
             "format": "{name}",
-            "all-outputs": false,
-            "active-only": false,
             "persistent-workspaces": {
-                "DP-1": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
-                ],
-                "HDMI-A-2": [
-                    6,
-                    7,
-                    8,
-                    9,
-                    10
-                ]
+                "*": 5
             }
         },
         "cava": {
