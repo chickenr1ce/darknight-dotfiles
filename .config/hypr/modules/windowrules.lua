@@ -55,7 +55,7 @@ hl.window_rule({
 hl.window_rule({
     name = "steam-friends-float",
     match = {
-        class = "^([Ss]team)$",
+        class = "^(steam)$",
         title = "^(Friends List)$"
     },
     float = on,
@@ -70,4 +70,12 @@ hl.window_rule({
     },
     render_unfocused = on,
     idle_inhibit = "always"
+})
+
+hl.window_rule({
+    name = "opacity",
+    match = {
+        class = "^(kitty)$"
+    },
+    opacity = "0.9"
 })

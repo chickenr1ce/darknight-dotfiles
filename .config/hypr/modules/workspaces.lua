@@ -4,7 +4,7 @@
 -- ▐█▌██▐█▌▐█▌.▐▌▐█•█▌▐█.█▌▐█▄▪▐█▐█▪·•▐█ ▪▐▌▐███▌▐█▄▄▌▐█▄▪▐█
 --  ▀▀▀▀ ▀▪ ▀█▄▀▪.▀  ▀·▀  ▀ ▀▀▀▀ .▀    ▀  ▀ ·▀▀▀  ▀▀▀  ▀▀▀▀ 
 --
--- See https://wiki.hypr.land/Configuring/Basics/Monitors/
+-- See https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 --
 --
 hl.workspace_rule({
