@@ -17,6 +17,11 @@ if status is-interactive # Commands to run in interactive sessions can go here
     #    cat ~/.local/state/quickshell/user/generated/terminal/sequences.txt
     # end
 
+    # Set up fzf key bindings
+    fzf --fish | source
+
+    set -gx EDITOR micro 
+
     # Aliases
     alias pamcan pacman
     alias ls 'eza --icons'
