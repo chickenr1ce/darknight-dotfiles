@@ -1,0 +1,46 @@
+{
+	"$schema": "https://opencode.ai/config.json",
+	"tools": {
+	  "websearch": true,
+	  "codesearch": true
+	},
+	"agent": {
+		"build": {
+			"description": "Primary coding agent that delegates command execution to @executor",
+			"permission": {
+				"bash": "deny"
+			},
+			"prompt": "{file:./prompts/coding-guideline.md}"
+		},
+		"plan": {
+			"description": "Structured implementation planning that delegates command execution to @executor",
+			"permission": {
+				"bash": "deny"
+			},
+			"prompt": "{file:./prompts/plan-guideline.md}"
+		},
+		"explore": {
+			"description": "Fast codebase exploration",
+			"model": "opencode-go/deepseek-v4-flash",
+			"variant": "max",
+			"prompt": "{file:./prompts/explore-guideline.md}"
+		},
+		"executor": {
+			"description": "Default execution subagent for bash commands, tests, builds, and validation",
+			"model": "opencode-go/deepseek-v4-flash",
+			"mode": "subagent",
+			"prompt": "{file:./prompts/executor-guideline.md}"
+		}
+  },
+  "mcp": {
+    "cg": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
+    }
+  }
+}

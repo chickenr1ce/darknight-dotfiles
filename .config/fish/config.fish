@@ -22,6 +22,16 @@ if status is-interactive # Commands to run in interactive sessions can go here
 
     set -gx EDITOR micro 
 
+    # wrapper for yazi
+    function y
+    	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    	command yazi $argv --cwd-file="$tmp"
+    	if read -z cwd < "$tmp"; and [ "$cwd" != "$PWD" ]; and test -d "$cwd"
+    		builtin cd -- "$cwd"
+    	end
+    	command rm -f -- "$tmp"
+    end
+
     # Aliases
     alias pamcan pacman
     alias ls 'eza --icons'
@@ -30,5 +40,11 @@ if status is-interactive # Commands to run in interactive sessions can go here
     alias ff 'fastfetch'
     alias lgd 'lazygit --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
     alias dots '/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+    alias skinpulse 'cd /home/alexiz/Projects/CS2_SkinPrice_Scraper && python3 tui.py'
+    alias skinpulse-manage 'cd /home/alexiz/Projects/CS2_SkinPrice_Scraper && python3 manage.py'
     
 end
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/home/alexiz/.local/bin" $PATH
