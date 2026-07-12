@@ -114,9 +114,8 @@ window#waybar {
 }
 
 #custom-notification {
-    padding: 0;           /* Remove the shared 12px padding */
-    margin: 4px 2px;      /* Keep vertical margin to align with bar */
-    min-width: 35px;
+    padding: 0 10px;      /* Even horizontal padding to center the icon */
+    margin: 4px 2px;
     color: @lavender;
 }
 

@@ -20,6 +20,7 @@ if status is-interactive # Commands to run in interactive sessions can go here
     # Set up fzf key bindings
     fzf --fish | source
 
+    # default editor
     set -gx EDITOR micro 
 
     # wrapper for yazi
@@ -31,6 +32,8 @@ if status is-interactive # Commands to run in interactive sessions can go here
     	end
     	command rm -f -- "$tmp"
     end
+    
+    set -gx HSA_OVERRIDE_GFX_VERSION 12.0.1
 
     # Aliases
     alias pamcan pacman
@@ -42,6 +45,9 @@ if status is-interactive # Commands to run in interactive sessions can go here
     alias dots '/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
     alias skinpulse 'cd /home/alexiz/Projects/CS2_SkinPrice_Scraper && python3 tui.py'
     alias skinpulse-manage 'cd /home/alexiz/Projects/CS2_SkinPrice_Scraper && python3 manage.py'
+    alias please 'sudo'
+    alias updatepls 'sudo pacman -Syu'
+    alias winboot 'sudo efibootmgr -n 0000 && reboot'
     
 end
 

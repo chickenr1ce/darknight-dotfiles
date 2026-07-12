@@ -24,6 +24,8 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cursor-clip"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen("maximized", "toggle"))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float("toggle"))
+
 
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))
 hl.bind(mainMod .. " + SUPER_R", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))

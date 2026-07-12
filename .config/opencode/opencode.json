@@ -1,11 +1,32 @@
 {
 	"$schema": "https://opencode.ai/config.json",
+	"model": "local-rig/gemma-4",
+	"provider": {
+	    "local-rig": {
+	      "npm": "@ai-sdk/openai-compatible",
+	      "name": "Local GPU Rig",
+	      "options": {
+	        "baseURL": "http://127.0.0.1:8033/v1",
+	        "apiKey": "ignored"
+	      },
+	      "models": {
+	        "qwen-3-6": {
+    	       "name": "Qwen 3-6 (IQ4_XS)",
+    	       "limit": {
+    	         "context": 100000,
+    	         "output": 32768
+    	      }
+    	    }
+	      }
+	    }
+	  },
 	"tools": {
 	  "websearch": true,
 	  "codesearch": true
 	},
 	"agent": {
 		"build": {
+			"mode": "primary",
 			"description": "Primary coding agent that delegates command execution to @executor",
 			"permission": {
 				"bash": "deny"
@@ -13,6 +34,7 @@
 			"prompt": "{file:./prompts/coding-guideline.md}"
 		},
 		"plan": {
+			"mode": "primary",
 			"description": "Structured implementation planning that delegates command execution to @executor",
 			"permission": {
 				"bash": "deny"
@@ -21,14 +43,14 @@
 		},
 		"explore": {
 			"description": "Fast codebase exploration",
-			"model": "opencode-go/deepseek-v4-flash",
+			"model": "deepseek/deepseek-v4-flash",
 			"variant": "max",
 			"prompt": "{file:./prompts/explore-guideline.md}"
 		},
 		"executor": {
-			"description": "Default execution subagent for bash commands, tests, builds, and validation",
-			"model": "opencode-go/deepseek-v4-flash",
 			"mode": "subagent",
+			"description": "Default execution subagent for bash commands, tests, builds, and validation",
+			"model": "deepseek/deepseek-v4-flash",
 			"prompt": "{file:./prompts/executor-guideline.md}"
 		}
   },

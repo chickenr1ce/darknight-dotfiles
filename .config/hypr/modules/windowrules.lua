@@ -53,14 +53,30 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    name = "steam",
+    match = {
+        class = "^(steam)$"
+    },
+    workspace = "5"
+})
+
+hl.window_rule({
+    name = "discord",
+    match = {
+        class = "^(discord)$"
+    },
+    workspace = "6"
+})
+
+hl.window_rule({
     name = "steam-friends-float",
     match = {
         class = "^(steam)$",
         title = "^(Friends List)$"
     },
-    float = on,
-    size = "300 600",
-    center = on
+    float = true,
+    size = "600 1000",
+    center = true
 })
 
 hl.window_rule({
@@ -68,7 +84,7 @@ hl.window_rule({
     match = {
         class = "^(steam_app_1245620)$"
     },
-    render_unfocused = on,
+    render_unfocused = true,
     idle_inhibit = "always"
 })
 

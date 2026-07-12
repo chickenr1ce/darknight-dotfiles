@@ -24,7 +24,7 @@
         "clock": {
             "interval": 60,
             "format": "{:%d.%m %H:%M}",
-            "max-length": 25
+            "max-length": 25,
         },
         "hyprland/workspaces": {
             "format": "{name}",
@@ -35,7 +35,8 @@
         "cava": {
             // "cava_config": "$XDG_CONFIG_HOME/cava/cava.conf",
             "framerate": 30,
-            "autosens": 1,
+            "autosens": 0,
+            "sensitivity": 1,
             "bars": 14,
             "lower_cutoff_freq": 50,
             "higher_cutoff_freq": 10000,
@@ -119,12 +120,7 @@
             "format-bluetooth-muted": " {icon}",
             "format-muted": "",
             "format-icons": {
-                "headphone": "",
-                "hands-free": "",
-                "headset": "",
-                "phone": "",
-                "portable": "",
-                "car": "",
+
                 "default": [
                     "",
                     "",
