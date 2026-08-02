@@ -30,5 +30,26 @@ Use codegraph for **structural** questions — what calls what, what would break
 
 ### If `.codegraph/` doesn't exist
 
-The MCP server returns "not initialized." Ask the user: *"I notice this project doesn't have CodeGraph initialized. Want me to run `codegraph init -i` to build the index?"*
+The codegraph-autoindex plugin normally creates the index at session start, so cg tools should just work. If they still report "not initialized":
+
+- Do not ask the user. Delegate to @executor: run `codegraph init` in the project root (indexing is default in v1.5; no flags needed), wait for it, then retry the cg call.
+- If init fails with a stale-lock error, run `codegraph unlock` first, then `codegraph init` again.
+- Verify with `codegraph status` (or `codegraph status -j` for JSON).
+- If tools still report not initialized after indexing, the cg MCP server was started before the index existed — restart opencode once.
+
+The file watcher keeps the index fresh after init; no manual reindexing day to day. After huge refactors, `codegraph sync` catches anything the watcher missed.
 <!-- CODEGRAPH_END -->
+
+<!-- CAVEMAN_START -->
+## Caveman Mode
+
+Caveman mode is opt-in terse speech, activated with `/caveman` (levels: lite, full, ultra, wenyan; `off` to deactivate), the dedicated `/caveman-commit`, `/caveman-review`, `/caveman-compress` commands, or plain language ("activate caveman", "stop caveman", "normal mode").
+
+Only when caveman mode is active (or a caveman command was just invoked):
+
+- Respond terse like smart caveman. Drop articles, filler, pleasantries, hedging. Fragments OK.
+- Technical terms exact. Pattern: [thing] [action] [reason]. [next step].
+- Code, commit messages, security warnings: normal English, never caveman.
+
+When not active, ignore this section and write normally.
+<!-- CAVEMAN_END -->
