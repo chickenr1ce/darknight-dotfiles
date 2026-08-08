@@ -21,7 +21,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("spotify", {
         workspace = "7"
     })
-    hl.exec_cmd("discord", {
+    -- Wrapper self-heals Vencord-asr damage and forces X11 (Chromium drops XF86Launch* keys on Wayland)
+    hl.exec_cmd("/home/alexiz/.local/bin/discord", {
         workspace = "6"
     })
 end)
