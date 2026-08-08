@@ -1,11 +1,11 @@
 {
 	"$schema": "https://opencode.ai/config.json",
 	"model": "deepseek/deepseek-v4-flash",
-	"provider": {
+	"providers": {
 		"local-rig": {
-			"npm": "@ai-sdk/openai-compatible",
+			"package": "aisdk:@ai-sdk/openai-compatible",
 			"name": "Local GPU Rig",
-			"options": {
+			"settings": {
 				"baseURL": "http://127.0.0.1:8033/v1",
 				"apiKey": "ignored"
 			},
@@ -27,64 +27,117 @@
 			}
 		}
 	},
-	"permission": {
-		"websearch": "allow"
-	},
-	"agent": {
+	"permissions": [
+		{
+			"action": "websearch",
+			"resource": "*",
+			"effect": "allow"
+		},
+		{
+			"action": "shell",
+			"resource": "git commit *",
+			"effect": "ask"
+		},
+		{
+			"action": "shell",
+			"resource": "git push *",
+			"effect": "ask"
+		}
+	],
+	"agents": {
 		"build": {
 			"mode": "primary",
 			"description": "Primary coding agent that delegates command execution to @executor",
-			"permission": {
-				"bash": {
-					"*": "ask",
-					"git status *": "allow",
-					"git diff *": "allow",
-					"git log *": "allow",
-					"ls *": "allow",
-					"pwd": "allow"
+			"permissions": [
+				{
+					"action": "shell",
+					"resource": "*",
+					"effect": "ask"
 				},
-				"websearch": "allow"
-			},
-			"prompt": "{file:./prompts/coding-guideline.md}"
+				{
+					"action": "shell",
+					"resource": "git status *",
+					"effect": "allow"
+				},
+				{
+					"action": "shell",
+					"resource": "git diff *",
+					"effect": "allow"
+				},
+				{
+					"action": "shell",
+					"resource": "git log *",
+					"effect": "allow"
+				},
+				{
+					"action": "shell",
+					"resource": "ls *",
+					"effect": "allow"
+				},
+				{
+					"action": "shell",
+					"resource": "pwd",
+					"effect": "allow"
+				},
+				{
+					"action": "websearch",
+					"resource": "*",
+					"effect": "allow"
+				}
+			],
+			"system": "{file:./prompts/coding-guideline.md}"
 		},
 		"plan": {
 			"mode": "primary",
 			"description": "Structured implementation planning that delegates command execution to @executor",
-			"permission": {
-				"bash": "deny",
-				"websearch": "allow"
-			},
-			"prompt": "{file:./prompts/plan-guideline.md}"
+			"permissions": [
+				{
+					"action": "shell",
+					"resource": "*",
+					"effect": "deny"
+				},
+				{
+					"action": "websearch",
+					"resource": "*",
+					"effect": "allow"
+				}
+			],
+			"system": "{file:./prompts/plan-guideline.md}"
 		},
 		"explore": {
+			"mode": "subagent",
 			"description": "Fast codebase exploration",
 			"model": "deepseek/deepseek-v4-flash",
-			"prompt": "{file:./prompts/explore-guideline.md}"
+			"system": "{file:./prompts/explore-guideline.md}"
 		},
 		"executor": {
 			"mode": "subagent",
 			"description": "Default execution subagent for bash commands, tests, builds, and validation",
 			"model": "deepseek/deepseek-v4-flash",
-			"prompt": "{file:./prompts/executor-guideline.md}"
+			"system": "{file:./prompts/executor-guideline.md}"
 		}
 	},
 	"mcp": {
-		"cg": {
-			"type": "local",
-			"command": [
-				"codegraph",
-				"serve",
-				"--mcp"
-			],
-			"enabled": true
+		"servers": {
+			"cg": {
+				"type": "local",
+				"command": [
+					"codegraph",
+					"serve",
+					"--mcp"
+				],
+				"disabled": false
+			}
 		}
 	},
-	"plugin": [
+	"plugins": [
 		"./plugins/caveman/plugin.js",
 		"./plugins/codegraph/plugin.js"
 	],
 	"compaction": {
-		"preserve_recent_tokens": 8000,
-		"reserved": 20000
+		"keep": {
+			"tokens": 8000
+		},
+		"buffer": 20000
 	}
 }
