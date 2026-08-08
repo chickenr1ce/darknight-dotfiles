@@ -35,7 +35,14 @@
 			"mode": "primary",
 			"description": "Primary coding agent that delegates command execution to @executor",
 			"permission": {
-				"bash": "deny",
+				"bash": {
+					"*": "ask",
+					"git status *": "allow",
+					"git diff *": "allow",
+					"git log *": "allow",
+					"ls *": "allow",
+					"pwd": "allow"
+				},
 				"websearch": "allow"
 			},
 			"prompt": "{file:./prompts/coding-guideline.md}"
@@ -52,7 +59,6 @@
 		"explore": {
 			"description": "Fast codebase exploration",
 			"model": "deepseek/deepseek-v4-flash",
-			"variant": "max",
 			"prompt": "{file:./prompts/explore-guideline.md}"
 		},
 		"executor": {
@@ -65,12 +71,20 @@
 	"mcp": {
 		"cg": {
 			"type": "local",
-			"command": ["codegraph", "serve", "--mcp"],
+			"command": [
+				"codegraph",
+				"serve",
+				"--mcp"
+			],
 			"enabled": true
 		}
 	},
 	"plugin": [
 		"./plugins/caveman/plugin.js",
 		"./plugins/codegraph/plugin.js"
-	]
+	],
+	"compaction": {
+		"preserve_recent_tokens": 8000,
+		"reserved": 20000
+	}
 }
