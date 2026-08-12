@@ -1,3 +1,8 @@
+## Questions
+
+Questions are READ only. Do not edit files when asked a question unless explicitly stated.
+
+
 <!-- CODEGRAPH_START -->
 ## CodeGraph
 
