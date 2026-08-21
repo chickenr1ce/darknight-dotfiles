@@ -3,57 +3,60 @@ import Quickshell.Services.Mpris
 import "../config"
 import "../components"
 
-// First non-firefox MPRIS player. Click toggles play/pause.
+// First non-Firefox MPRIS player. Click toggles play/pause.
 // "Playing" state inverts the module colors like waybar.
 // Mpris.players is a QML model, not a JS array, so iterate by index.
 ModuleBox {
-    id: box
-    property var player: null
+    id: root
 
-    function refresh() {
-        const m = Mpris.players;
-        if (!m) {
-            player = null;
+    property var activePlayer: null
+
+    function refreshActivePlayer(): void {
+        const players = Mpris.players;
+        if (!players) {
+            activePlayer = null;
             return;
         }
-        player = null;
-        for (let i = 0; i < m.count; i++) {
-            const p = m.get(i);
-            if (!(p.identity || "").toLowerCase().includes("firefox")) {
-                player = p;
+        activePlayer = null;
+        for (let i = 0; i < players.count; i++) {
+            const candidate = players.get(i);
+            if (!(candidate.identity ?? "").toLowerCase().includes("firefox")) {
+                activePlayer = candidate;
                 break;
             }
         }
     }
 
-    Component.onCompleted: refresh()
+    Component.onCompleted: refreshActivePlayer()
+
     Timer {
+        id: idMediaTimer
+
         interval: 1000
         running: true
         repeat: true
-        onTriggered: refresh()
+        onTriggered: root.refreshActivePlayer()
     }
 
-    visible: player !== null
-    color: player && player.isPlaying ? Colors.lavender : Colors.background
+    visible: activePlayer !== null
+    color: activePlayer?.isPlaying ? Colors.lavender : Colors.background
 
     Text {
-        color: player && player.isPlaying ? Colors.background : Colors.lavender
+        id: idMediaLabel
+
+        color: root.activePlayer?.isPlaying ? Colors.background : Colors.lavender
         font.family: Globals.fontFamily
         font.pixelSize: Globals.fontPixelSize
         font.weight: Font.DemiBold
         text: {
-            if (!player)
+            if (!root.activePlayer)
                 return "";
-            const icon = player.isPlaying ? "▶" : "⏸";
-            const title = player.trackTitle || "";
-            const artist = player.trackArtist || "";
-            return " " + icon + " " + title + (artist ? " - " + artist : "");
+            const statusIcon = root.activePlayer.isPlaying ? "▶" : "⏸";
+            const title = root.activePlayer.trackTitle ?? "";
+            const artist = root.activePlayer.trackArtist ?? "";
+            return ` ${statusIcon} ${title}${artist ? ` - ${artist}` : ""}`;
         }
     }
 
-    onClicked: {
-        if (player && player.playPause)
-            player.playPause();
-    }
+    onClicked: activePlayer?.playPause?.()
 }

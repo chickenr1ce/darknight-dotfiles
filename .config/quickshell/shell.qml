@@ -16,15 +16,16 @@ ShellRoot {
     id: root
 
     Variants {
+        id: idScreenVariants
         model: Quickshell.screens
 
         // qmllint disable uncreatable-type
         PanelWindow {
-            id: idPanel
+            id: idPanelWindow
 
             required property var modelData
             screen: modelData
-            property string monName: modelData.name
+            property string monitorName: modelData.name
 
             anchors.top: true
             anchors.left: true
@@ -33,38 +34,39 @@ ShellRoot {
             color: "transparent"
 
             RowLayout {
+                id: idBarLayout
                 anchors.fill: parent
-
                 anchors.leftMargin: Globals.horizontalBarMargin
                 anchors.rightMargin: Globals.horizontalBarMargin
                 anchors.topMargin: Globals.moduleMargin
-                //anchors.bottomMargin: Globals.moduleMargin
-
                 spacing: Globals.moduleMargin
 
                 // Left cluster
                 Clock {}
+                Workspaces {
+                    monitorName: idPanelWindow.monitorName
+                }
 
-                Rectangle {
+                Item {
+                    id: idSpacer
                     Layout.fillWidth: true
-                    color: "transparent"
                 }
 
                 // Right cluster (full bar only)
                 Media {
-                    visible: idPanel.monName === "DP-1"
+                    visible: idPanelWindow.monitorName === "DP-1"
                 }
                 Audio {
-                    visible: idPanel.monName === "DP-1"
+                    visible: idPanelWindow.monitorName === "DP-1"
                 }
                 Cpu {
-                    visible: idPanel.monName === "DP-1"
+                    visible: idPanelWindow.monitorName === "DP-1"
                 }
                 Notifications {
-                    visible: idPanel.monName === "DP-1"
+                    visible: idPanelWindow.monitorName === "DP-1"
                 }
                 PowerMenu {
-                    visible: idPanel.monName === "DP-1"
+                    visible: idPanelWindow.monitorName === "DP-1"
                 }
             }
         }

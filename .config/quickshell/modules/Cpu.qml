@@ -3,39 +3,56 @@ import Quickshell.Io
 import "../config"
 import "../components"
 
-// CPU usage from /proc/stat, polled every 2s.
+// CPU usage from /proc/stat, polled every 2 s.
 ModuleBox {
-  id: box
-  property real usage: 0
-  property var last: null
+    id: root
 
-  Text {
-    color: Colors.lavender
-    font.family: Globals.fontFamily
-    font.pixelSize: Globals.fontPixelSize
-    font.weight: Font.DemiBold
-    text: Math.round(box.usage) + "% "
-  }
+    property real cpuUsagePercent: 0
+    property var previousCpuSample: null
 
-  Process {
-    id: cpuProc
-    command: ["bash", "-c", "grep '^cpu ' /proc/stat"]
-    running: true
-    stdout: StdioCollector {
-      onStreamFinished: {
-        const parts = this.text.trim().split(/\s+/).slice(1).map(Number)
-        const idle = parts[3]
-        const total = parts.reduce((a, b) => a + b, 0)
-        if (box.last !== null) {
-          const dTotal = total - box.last.total
-          const dIdle = idle - box.last.idle
-          const u = dTotal > 0 ? (1 - dIdle / dTotal) * 100 : 0
-          box.usage = Math.max(0, Math.min(100, u))
-        }
-        box.last = { total, idle }
-      }
+    Text {
+        id: idCpuLabel
+
+        color: Colors.lavender
+        font.family: Globals.fontFamily
+        font.pixelSize: Globals.fontPixelSize
+        font.weight: Font.DemiBold
+        text: `${Math.round(root.cpuUsagePercent)}% `
     }
-  }
 
-  Timer { interval: 2000; running: true; repeat: true; onTriggered: cpuProc.running = true }
+    Process {
+        id: idCpuProcess
+
+        command: ["bash", "-c", "grep '^cpu ' /proc/stat"]
+        running: true
+
+        stdout: StdioCollector {
+            id: idCpuCollector
+            onStreamFinished: {
+                const fields = this.text.trim().split(/\s+/).slice(1).map(Number);
+                const idleTime = fields[3];
+                const totalTime = fields.reduce((sum, value) => sum + value, 0);
+
+                if (root.previousCpuSample !== null) {
+                    const deltaTotal = totalTime - root.previousCpuSample.totalTime;
+                    const deltaIdle = idleTime - root.previousCpuSample.idleTime;
+                    const usage = deltaTotal > 0 ? (1 - deltaIdle / deltaTotal) * 100 : 0;
+                    root.cpuUsagePercent = Math.max(0, Math.min(100, usage));
+                }
+                root.previousCpuSample = {
+                    totalTime: totalTime,
+                    idleTime: idleTime
+                };
+            }
+        }
+    }
+
+    Timer {
+        id: idCpuTimer
+
+        interval: 2000
+        running: true
+        repeat: true
+        onTriggered: idCpuProcess.running = true
+    }
 }
