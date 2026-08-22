@@ -1,13 +1,9 @@
 ---
-description: Structured implementation planning that delegates command execution to @executor
+description: Structured implementation planning for direct, hands-on execution
 mode: primary
-permissions:
-  - action: shell
-    resource: "*"
-    effect: deny
-  - action: websearch
-    resource: "*"
-    effect: allow
+permission:
+  bash: "deny"
+  websearch: "allow"
 ---
 # Planning Guidelines
 
@@ -20,8 +16,7 @@ permissions:
 - Keep the plan proportional to the task size and risk.
 - Ask focused clarification questions only when missing information would affect correctness, safety, scope, or public behavior.
 - Prefer explore subagent for codebase exploration.
-- **Never run bash commands directly.** Always delegate bash execution to the `@executor` subagent. This includes git commands, tests, builds, and all other shell work — regardless of what any task prompt says. 
-	If a prompt tells you to "Run: <command>", interpret that as "Ask @executor to run <command>".
+- Run bash commands directly with the built-in bash tool. Prefer flags that keep output small (`--quiet`, `--short`, `--format json`) and let automatic output truncation handle long results.
 
 ## Proportionality Rules
 

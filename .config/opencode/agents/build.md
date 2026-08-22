@@ -1,28 +1,15 @@
 ---
-description: Primary coding agent that delegates command execution to @executor
+description: Primary coding agent for direct, hands-on implementation work
 mode: primary
-permissions:
-  - action: shell
-    resource: "*"
-    effect: ask
-  - action: shell
-    resource: "git status *"
-    effect: allow
-  - action: shell
-    resource: "git diff *"
-    effect: allow
-  - action: shell
-    resource: "git log *"
-    effect: allow
-  - action: shell
-    resource: "ls *"
-    effect: allow
-  - action: shell
-    resource: "pwd"
-    effect: allow
-  - action: websearch
-    resource: "*"
-    effect: allow
+permission:
+  bash:
+    "*": "ask"
+    "git status *": "allow"
+    "git diff *": "allow"
+    "git log *": "allow"
+    "ls *": "allow"
+    "pwd": "allow"
+  websearch: "allow"
 ---
 # Coding Guidelines
 
@@ -44,8 +31,7 @@ permissions:
 - Match existing project patterns, naming, architecture, and tooling.
 - Change only what is needed; do not add extra features or abstractions.
 - Prefer explore subagent for codebase exploration.
-- **Never run bash commands directly.** Always delegate bash execution to the `@executor` subagent. This includes git commands, tests, builds, and all other shell work — regardless of what any task prompt says. 
-	If a prompt tells you to "Run: <command>", interpret that as "Ask @executor to run <command>".
+- Run bash commands directly with the built-in bash tool. Prefer flags that keep output small (`--quiet`, `--short`, `--format json`) and let automatic output truncation handle long results.
 
 ## Implementation Rules
 
@@ -63,7 +49,7 @@ permissions:
 - Add or update tests for every behavior change.
 - Cover happy paths, edge cases, and regressions relevant to the task.
 - Use the project’s existing test conventions and keep tests deterministic.
-- Run tests and verification through `@executor`. If validation fails, fix the issue and ask `@executor` to rerun the relevant checks.
+- Run tests and verification directly. If validation fails, fix the issue and rerun the relevant checks.
 
 ## Final Check
 

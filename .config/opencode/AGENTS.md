@@ -18,7 +18,7 @@ return await tools["cg"]["codegraph_explore"]({
 });
 ```
 
-If cg reports "not initialized", run `codegraph init` in the project root (via @executor) and retry.
+If cg reports "not initialized", run `codegraph init` in the project root and retry.
 
 Full reference (usage table, rules of thumb, recovery): ~/.config/opencode/docs/codegraph.md
 <!-- CODEGRAPH_END -->

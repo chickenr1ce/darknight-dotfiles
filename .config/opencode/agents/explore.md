@@ -1,7 +1,7 @@
 ---
 description: Fast codebase exploration
 mode: subagent
-model: deepseek/deepseek-v4-flash
+model: opencode-go/hy3
 ---
 # Exploration Guidelines
 

@@ -1,24 +1,17 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"model": "deepseek/deepseek-v4-flash",
-	"providers": {
+	"model": "opencode-go/deepseek-v4-flash",
+	"provider": {
 		"local-rig": {
-			"package": "aisdk:@ai-sdk/openai-compatible",
+			"npm": "@ai-sdk/openai-compatible",
 			"name": "Local GPU Rig",
-			"settings": {
+			"options": {
 				"baseURL": "http://127.0.0.1:8033/v1",
 				"apiKey": "ignored"
 			},
 			"models": {
-				"gemma-4": {
-					"name": "Gemma 4",
-					"limit": {
-						"context": 100000,
-						"output": 32768
-					}
-				},
-				"qwen-3-6": {
-					"name": "Qwen 3-6 (IQ4_XS)",
+				"local-model": {
+					"name": "Local Model",
 					"limit": {
 						"context": 100000,
 						"output": 32768
@@ -27,44 +20,33 @@
 			}
 		}
 	},
-	"permissions": [
-		{
-			"action": "websearch",
-			"resource": "*",
-			"effect": "allow"
+	"permission": {
+		"websearch": "allow",
+		"bash": {
+			"git commit *": "ask",
+			"git push *": "ask"
 		},
-		{
-			"action": "shell",
-			"resource": "git commit *",
-			"effect": "ask"
-		},
-		{
-			"action": "shell",
-			"resource": "git push *",
-			"effect": "ask"
-		}
-	],
-	"mcp": {
-		"servers": {
-			"cg": {
-				"type": "local",
-				"command": [
-					"codegraph",
-					"serve",
-					"--mcp"
-				],
-				"disabled": false
-			}
+		"task": {
+			"vision": "allow"
 		}
 	},
-	"plugins": [
+	"mcp": {
+		"cg": {
+			"type": "local",
+			"command": [
+				"codegraph",
+				"serve",
+				"--mcp"
+			],
+			"enabled": true
+		}
+	},
+	"plugin": [
 		"./plugins/caveman/plugin.js",
 		"./plugins/codegraph/plugin.js"
 	],
 	"compaction": {
-		"keep": {
-			"tokens": 8000
-		},
-		"buffer": 20000
+		"preserve_recent_tokens": 8000,
+		"reserved": 20000
 	}
 }

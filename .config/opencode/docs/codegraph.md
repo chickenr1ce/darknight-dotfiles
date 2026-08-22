@@ -26,7 +26,7 @@ Use codegraph for **structural** questions — what calls what, what would break
 | "Show me Y's signature / source / docstring" | same — name Y in the query |
 | "See several related symbols' source at once" | same — list them all in one query |
 | "How does X reach Y? / the flow from X to Y" | same — name both endpoints; the call path is surfaced |
-| "Is the index healthy?" | `codegraph status` (via @executor) |
+| "Is the index healthy?" | `codegraph status` (bash) |
 
 ## Rules of thumb
 
@@ -41,7 +41,7 @@ Use codegraph for **structural** questions — what calls what, what would break
 
 The index is created with `codegraph init` in the project root when missing. If tools report "not initialized":
 
-- Do not ask the user. Delegate to @executor: run `codegraph init` in the project root (indexing is default in v1.5; no flags needed), wait for it, then retry.
+- Do not ask the user. Run `codegraph init` in the project root (indexing is default in v1.5; no flags needed), wait for it, then retry.
 - If init fails with a stale-lock error, run `codegraph unlock` first, then `codegraph init` again.
 - Verify with `codegraph status` (or `codegraph status -j` for JSON).
 - If tools still report not initialized after indexing, the cg MCP server was started before the index existed — restart opencode once.
