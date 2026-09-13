@@ -13,11 +13,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("systemctl --user start graphical-session.target")
     hl.exec_cmd("nm-applet")
-    hl.exec_cmd("waybar & awww-daemon & swaync")
+    hl.exec_cmd("quickshell & awww-daemon")
     hl.exec_cmd("cursor-clip --daemon")
     hl.exec_cmd("kbuildsycoca6 --noincremental")
     hl.exec_cmd("easyeffects --gapplication-service")
-    hl.exec_cmd("systemctl --user start hyprpolkitagent")
+    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
     hl.exec_cmd("spotify", {
         workspace = "7"
     })
