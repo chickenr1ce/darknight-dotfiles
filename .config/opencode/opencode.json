@@ -1,6 +1,5 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"model": "opencode-go/deepseek-v4-flash",
 	"provider": {
 		"local-rig": {
 			"npm": "@ai-sdk/openai-compatible",
@@ -30,21 +29,6 @@
 			"vision": "allow"
 		}
 	},
-	"mcp": {
-		"cg": {
-			"type": "local",
-			"command": [
-				"codegraph",
-				"serve",
-				"--mcp"
-			],
-			"enabled": true
-		}
-	},
-	"plugin": [
-		"./plugins/caveman/plugin.js",
-		"./plugins/codegraph/plugin.js"
-	],
 	"compaction": {
 		"preserve_recent_tokens": 8000,
 		"reserved": 20000

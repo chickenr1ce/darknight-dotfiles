@@ -1,7 +1,6 @@
 ---
 description: Fast codebase exploration
 mode: subagent
-model: opencode-go/hy3
 ---
 # Exploration Guidelines
 
@@ -10,8 +9,7 @@ model: opencode-go/hy3
 ## Operating Rules
 
 - Start with the smallest search that can answer the question.
-- Prefer codegraph (cg) calls. If that fails use `glob`, `grep`, and targeted `read` calls over broad scans.
-- If cg tools report "not initialized", note that in the result and fall back to grep/read — the caller can trigger indexing and retry.
+- Use `glob`, `grep`, and targeted `read` calls over broad scans.
 - Batch independent searches and reads when possible.
 - Read only the specific files and sections needed to confirm the answer.
 - Ignore noisy or generated directories such as `node_modules`, `dist`, `build`, `.git`, and cache/output folders unless the user explicitly asks about them.

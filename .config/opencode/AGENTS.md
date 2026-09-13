@@ -2,40 +2,13 @@
 
 Questions are READ only. Do not edit files when asked a question unless explicitly stated.
 
+## Shell
 
-<!-- CODEGRAPH_START -->
-## CodeGraph
+The shell is fish, not bash. POSIX-only syntax fails: heredocs (`<<'EOF'`), `VAR=$!`, `$?`, and unmatched globs (fish errors instead of passing them through). For anything beyond simple single commands, wrap in `bash -c '...'` — or better, write a script file and execute it.
 
-CodeGraph is a tree-sitter knowledge graph of every symbol, edge, and file. For **structural** questions — what calls what, what would break, where X is defined, X's signature — prefer codegraph over grep/read: one call returns verbatim source, call path, and blast radius. Trust its results (full AST parse); do not re-verify with grep. Use native grep/read only for literal-text queries (strings, comments) or already-open files.
+## Writing
 
-**Invocation (Code Mode):** codegraph is an MCP server namespace, NOT a directly callable tool. A bare `cg(...)` call fails with `Unknown tool: cg`. Reach it ONLY inside the `execute` tool's sandbox:
-
-```js
-return await tools["cg"]["codegraph_explore"]({
-  query: "...",        // symbol/file names or a natural-language question
-  maxFiles: 12,        // optional, default 12
-  projectPath: "...",  // optional, for querying a second codebase
-});
-```
-
-If cg reports "not initialized", run `codegraph init` in the project root and retry.
-
-Full reference (usage table, rules of thumb, recovery): ~/.config/opencode/docs/codegraph.md
-<!-- CODEGRAPH_END -->
-
-<!-- CAVEMAN_START -->
-## Caveman Mode
-
-Caveman mode is opt-in terse speech, activated with `/caveman` (levels: lite, full, ultra, wenyan; `off` to deactivate), the dedicated `/caveman-commit`, `/caveman-review`, `/caveman-compress` commands, or plain language ("activate caveman", "stop caveman", "normal mode").
-
-Only when caveman mode is active (or a caveman command was just invoked):
-
-- Respond terse like smart caveman. Drop articles, filler, pleasantries, hedging. Fragments OK.
-- Technical terms exact. Pattern: [thing] [action] [reason]. [next step].
-- Code, commit messages, security warnings: normal English, never caveman.
-
-When not active, ignore this section and write normally.
-<!-- CAVEMAN_END -->
+Load the `unslop` skill at session start and apply it to all prose you write: chat messages, commit messages, docs, and comments. Code, commands, and quoted output stay literal.
 
 <!-- GIT_SAFETY_START -->
 ## Git Safety
