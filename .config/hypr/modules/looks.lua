@@ -88,12 +88,12 @@ hl.curve("quick", {
     points = {{0.15, 0}, {0.1, 1}}
 })
 
--- Default springs
+-- Default springs (updated for 0.56+ spring physics)
 hl.curve("easy", {
     type = "spring",
     mass = 1,
-    stiffness = 71.2633,
-    dampening = 15.8273644
+    stiffness = 238.1191,
+    dampening = 24.21279333
 })
 
 hl.animation({
@@ -127,6 +127,12 @@ hl.animation({
     speed = 1.49,
     bezier = "linear",
     style = "popin 87%"
+})
+hl.animation({
+    leaf = "windowsMove",
+    enabled = true,
+    speed = 2.5,
+    bezier = "easeOutQuint"
 })
 hl.animation({
     leaf = "fadeIn",
