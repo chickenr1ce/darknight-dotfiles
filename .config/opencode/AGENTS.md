@@ -10,6 +10,10 @@ The shell is fish, not bash. POSIX-only syntax fails: heredocs (`<<'EOF'`), `VAR
 
 Load the `unslop` skill at session start and apply it to all prose you write: chat messages, commit messages, docs, and comments. Code, commands, and quoted output stay literal.
 
+## Artifacts
+
+Share local single-file artifacts (HTML, logs, images) as clickable file links. Check browser connectivity before automating the browser.
+
 <!-- GIT_SAFETY_START -->
 ## Git Safety
 
