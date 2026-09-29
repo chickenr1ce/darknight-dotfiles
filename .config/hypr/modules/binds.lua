@@ -22,6 +22,7 @@ hl.bind(mainMod .. " + CTRL + Q", hl.dsp.exec_cmd("~/.config/quickshell/scripts/
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("spotify-launcher"))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
+hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m DP-1"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cursor-clip"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen("maximized", "toggle"))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float("toggle"))

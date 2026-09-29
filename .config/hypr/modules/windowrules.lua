@@ -95,3 +95,13 @@ hl.window_rule({
     },
     opacity = "0.9"
 })
+
+hl.window_rule({
+    name = "quickshell-settings",
+    match = {
+        class = "^org[.]quickshell$",
+        title = "^Settings$"
+    },
+    float = true,
+    center = true
+})
