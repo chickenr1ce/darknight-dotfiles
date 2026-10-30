@@ -1,0 +1,105 @@
+#!/bin/bash
+# Discord launcher wrapper for this machine.
+#
+# Three jobs, all consequences of Discord's self-update model:
+#  1. Pick a launchable host: Discord's delta updater can abort partway and
+#     leave a half-populated app-<ver>/ dir (host libs such as libffmpeg.so
+#     never land). Never select or launch an incomplete dir; fall back to the
+#     newest one that is actually complete.
+#  2. Self-heal: Discord's updater + Vencord's repatch routine can leave
+#     resources/_app.asar as a ~200-byte stub, which hangs Discord before the
+#     UI starts (no window, no renderer). Detect that and re-download the real
+#     bundle via the system updater_bootstrap.
+#  3. Force X11 mode: Chromium on Wayland drops XF86Launch* keysyms, which
+#     breaks the hl.dsp.pass binds in ~/.config/hypr/modules/binds.lua.
+#     See also the .desktop override in ~/.local/share/applications/.
+
+set -u
+
+CONFIG="$HOME/.config/discord"
+BOOTSTRAP="/usr/share/discord/updater_bootstrap"
+CHANNEL="stable"
+DOWNLOAD="https://updates.discord.com/"
+
+# Every file a launchable Electron host needs. A missing one means a
+# half-applied update, which must not be launched.
+is_complete() {
+    local d="$1" f
+    [ -n "$d" ] || return 1
+    for f in Discord libffmpeg.so icudtl.dat resources.pak resources/app.asar; do
+        [ -e "$d/$f" ] || return 1
+    done
+}
+
+# Versioned app dirs, oldest -> newest (exclude .broken leftovers)
+APPS="$(ls -d "$CONFIG"/app-* 2>/dev/null | grep -v '\.broken$' | sort -V)"
+
+# Newest dir overall (may be a broken partial update), and newest complete dir.
+NEWEST="$(printf '%s\n' "$APPS" | tail -1)"
+APP=""
+for d in $(printf '%s\n' "$APPS" | sort -Vr); do
+    if is_complete "$d"; then APP="$d"; break; fi
+done
+
+# Nothing launchable on disk: install a fresh full host.
+if [ -z "$APP" ]; then
+    echo "discord wrapper: no complete app dir — reinstalling via bootstrap" >&2
+    SCRATCH="$(mktemp -d /tmp/discord-health.XXXXXX)"
+    FETCHED="$( "$BOOTSTRAP" --no-zenity "$SCRATCH" "$CHANNEL" "$DOWNLOAD" 2>/dev/null | tail -1 )"
+    case "$FETCHED" in app-*) ;; *) FETCHED="";; esac
+    SRC="$SCRATCH/$FETCHED"
+    if [ -n "$FETCHED" ] && is_complete "$SRC"; then
+        # Vencord loader stub from an existing patched dir, if any.
+        STUB=""
+        for d in $(printf '%s\n' "$APPS" | sort -Vr); do
+            if [ -f "$d/resources/app.asar" ] && [ "$(wc -c < "$d/resources/app.asar")" -lt 1000000 ]; then
+                STUB="$d/resources/app.asar"; break
+            fi
+        done
+        APP="$CONFIG/$FETCHED"
+        rm -rf "$APP"
+        cp -a "$SRC" "$APP"
+        # Re-apply Vencord's layout: real bundle -> _app.asar, loader -> app.asar
+        cp -a "$APP/resources/app.asar" "$APP/resources/_app.asar"
+        [ -n "$STUB" ] && cp -a "$STUB" "$APP/resources/app.asar"
+        echo "discord wrapper: installed complete host $FETCHED" >&2
+    else
+        echo "discord wrapper: full reinstall failed — trying newest dir anyway" >&2
+        APP="$NEWEST"
+    fi
+    rm -rf "$SCRATCH"
+elif [ "$APP" != "$NEWEST" ]; then
+    echo "discord wrapper: newest dir $NEWEST is incomplete — using $APP" >&2
+fi
+
+if [ -n "$APP" ]; then
+    ASAR="$APP/resources/_app.asar"
+    SIZE="$(wc -c < "$ASAR" 2>/dev/null || echo 0)"
+
+    # Real bundle is multi-MB; a Vencord stub is ~200 bytes.
+    if [ "$SIZE" -lt 1000000 ]; then
+        echo "discord wrapper: _app.asar is stubbed ($SIZE bytes) — re-downloading bundle" >&2
+        SCRATCH="$(mktemp -d /tmp/discord-health.XXXXXX)"
+        FETCHED="$( "$BOOTSTRAP" --no-zenity "$SCRATCH" "$CHANNEL" "$DOWNLOAD" 2>/dev/null | tail -1 )"
+        if [ -n "$FETCHED" ] && [ -f "$SCRATCH/$FETCHED/resources/app.asar" ]; then
+            cp "$ASAR" "$ASAR.stub-broken" 2>/dev/null
+            cp "$SCRATCH/$FETCHED/resources/app.asar" "$ASAR"
+            echo "discord wrapper: repaired bundle in $APP" >&2
+        else
+            echo "discord wrapper: bundle re-download failed — launching anyway" >&2
+        fi
+        rm -rf "$SCRATCH"
+    fi
+
+    # Always point the launcher at the complete host we settled on.
+    ln -sf "$APP/Discord" "$CONFIG/Discord"
+fi
+
+# Workaround for Discord's hardware-encode SIGTRAP crash while streaming
+# (flathub/com.discordapp.Discord#684, open in 1.0.156 through 1.0.161).
+# Discord's quality scorer calls ElectronFrameBuffer::ToI420() on its own
+# uv thread, which trips a Chromium task-sequence CHECK and IMMEDIATE_CRASHes
+# about six seconds after encoding starts. Making libva unavailable forces
+# software encoding and skips the scorer's hardware path.
+# Remove this line once upstream fixes the scorer.
+exec env LIBVA_DRIVER_NAME=none /usr/bin/discord --ozone-platform=x11 "$@"

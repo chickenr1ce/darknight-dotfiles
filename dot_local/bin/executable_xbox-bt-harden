@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# xbox-bt-harden — make BlueZ self-heal the Xbox controller bond instead of
+# auth-failing after a reboot.
+#
+# Sets two options in /etc/bluetooth/main.conf:
+#
+#   JustWorksRepairing = always
+#       BlueZ default is "never": a re-pair initiated by the controller is
+#       refused. "always" accepts it, so a mismatched link key can repair
+#       itself instead of looping on authentication failure.
+#
+#   FastConnectable = true
+#       Lets the controller establish the link faster. Costs a little power.
+#
+# Run with sudo:  sudo xbox-bt-harden
+# Then:           sudo systemctl restart bluetooth
+
+set -euo pipefail
+
+CONF=/etc/bluetooth/main.conf
+
+if [[ ${EUID} -ne 0 ]]; then
+    echo "run with sudo:  sudo $0" >&2
+    exit 1
+fi
+[[ -f $CONF ]] || { echo "missing $CONF" >&2; exit 1; }
+
+bak="${CONF}.bak.$(date +%Y%m%d-%H%M%S)"
+cp -a "$CONF" "$bak"
+echo "backup: $bak"
+
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+
+if ! awk '
+    /^[[:space:]]*(JustWorksRepairing|FastConnectable)[[:space:]]*=/ { next }
+    /^\[General\][[:space:]]*$/ && !ins {
+        print "[General]"
+        print "JustWorksRepairing = always"
+        print "FastConnectable = true"
+        ins = 1
+        next
+    }
+    { print }
+    END { if (!ins) exit 1 }
+' "$CONF" > "$tmp"; then
+    echo "could not find a [General] section in $CONF — not modified" >&2
+    exit 1
+fi
+
+# Write in place so ownership and permissions stay as they were.
+cat "$tmp" > "$CONF"
+
+echo
+echo "applied:"
+grep -nE '^\[General\]|^JustWorksRepairing|^FastConnectable' "$CONF"
+echo
+echo "now restart the service:  sudo systemctl restart bluetooth"

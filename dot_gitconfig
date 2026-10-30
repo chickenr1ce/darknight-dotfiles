@@ -1,0 +1,7 @@
+[user]
+	email = alexizfirdaus@gmail.com
+	name = chickenr1ce
+[core]
+	editor = true
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret

@@ -1,0 +1,20 @@
+{
+  "theme": {
+    "name": "opencode",
+    "mode": "system"
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": false,
+    "thinking": "hide"
+  },
+  "animations": true,
+  "tabs": {
+    "layout": "vertical",
+    "scope": "global",
+    "enabled": true
+  }
+}

@@ -1,0 +1,10 @@
+[opener]
+firefox = [
+    { run = 'firefox %s', orphan = true, desc = "Open in Firefox" }
+]
+
+[open]
+prepend_rules = [
+    { url = "*.html", use = [ "firefox", "open" ] },
+    { url = "*.pdf", use = [ "firefox", "open" ] }
+]

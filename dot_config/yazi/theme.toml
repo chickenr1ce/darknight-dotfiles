@@ -1,0 +1,244 @@
+# Rendered by scripts/render-theme.sh from the active theme palette.
+# Do not edit: the next palette load overwrites this file.
+#
+# yazi reads a single theme.toml and has no include directive, so this repo
+# owns the whole file. Edit the template at assets/templates/yazi-theme.toml,
+# not this copy. See docs/user/theme-desktop-setup.md.
+#
+# Chip text uses an on_<role> ink and body text uses a readable_<role> hue,
+# each the higher-contrast choice for its ground, so a light theme stays
+# readable.
+
+# : App
+
+[app]
+overall = { bg = "#141118" }
+
+
+
+# : Manager
+
+[mgr]
+cwd = { fg = "#94e2d5" }
+
+# Find
+find_keyword  = { fg = "#d7d370", bold = true, italic = true, underline = true }
+find_position = { fg = "#a980db", bg = "reset", bold = true, italic = true }
+
+# Symlink
+symlink_target = { italic = true }
+
+# Marker
+marker_copied   = { fg = "#000000", bg = "#89b4fa" }
+marker_cut      = { fg = "#000000", bg = "#ff5252" }
+marker_marked   = { fg = "#000000", bg = "#b4befe" }
+marker_selected = { fg = "#000000", bg = "#d7d370" }
+
+# Count
+count_copied   = { fg = "#000000", bg = "#89b4fa" }
+count_cut      = { fg = "#000000", bg = "#ff5252" }
+count_selected = { fg = "#000000", bg = "#d7d370" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#9d93ad" }
+
+# Highlighting
+syntect_theme = ""
+
+
+
+# : Tabs
+
+[tabs]
+active   = { fg = "#000000", bg = "#89b4fa", bold = true }
+inactive = { fg = "#141118", bg = "#cac4d4" }
+
+# Separator
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+
+
+# : Mode
+
+[mode]
+normal_main = { fg = "#000000", bg = "#94e2d5", bold = true }
+normal_alt  = { fg = "#141118", bg = "#cac4d4", bold = true }
+
+# Select mode
+select_main = { fg = "#000000", bg = "#ff5252", bold = true }
+select_alt  = { fg = "#141118", bg = "#cac4d4", bold = true }
+
+# Unset mode
+unset_main = { fg = "#000000", bg = "#ff5252", bold = true }
+unset_alt  = { fg = "#141118", bg = "#cac4d4", bold = true }
+
+
+
+# : Indicator of hovered file
+
+[indicator]
+parent  = { reversed = true }
+current = { reversed = true }
+preview = { underline = true }
+padding = { open = "", close = "" }
+
+
+
+# : Status bar
+
+[status]
+overall   = { bg = "#141118" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+# Permissions
+perm_sep   = { fg = "#9d93ad" }
+perm_type  = { fg = "#a980db" }
+perm_read  = { fg = "#d7d370" }
+perm_write = { fg = "#ff5252" }
+perm_exec  = { fg = "#94e2d5" }
+
+# Progress
+progress_label  = { fg = "#cac4d4", bold = true }
+progress_normal = { fg = "#89b4fa", bg = "#282936" }
+progress_error  = { fg = "#ff5252", bg = "#282936" }
+
+
+
+# : Which
+
+[which]
+cols            = 3
+mask            = { bg = "#282936" }
+cand            = { fg = "#94e2d5" }
+rest            = { fg = "#9d93ad" }
+desc            = { fg = "#d7d370" }
+separator       = "  "
+separator_style = { fg = "#9d93ad" }
+
+
+
+# : Confirmation
+
+[confirm]
+border     = { fg = "#9d93ad" }
+title      = { fg = "#ff5252", bold = true }
+body       = { fg = "#cac4d4" }
+list       = { fg = "#cac4d4" }
+btn_yes    = { fg = "#000000", bg = "#89b4fa", bold = true }
+btn_no     = { fg = "#141118", bg = "#cac4d4", bold = true }
+btn_labels = [ "  [y]es  ", "  (n)o  " ]
+
+
+
+# : Spotter
+
+[spot]
+border = { fg = "#9d93ad" }
+title  = { fg = "#94e2d5", bold = true }
+
+# Table
+tbl_col  = { fg = "#94e2d5" }
+tbl_cell = { fg = "#000000", bg = "#d7d370", bold = true }
+
+
+
+# : Notification
+
+[notify]
+title_info  = { fg = "#89b4fa" }
+title_warn  = { fg = "#d7d370" }
+title_error = { fg = "#ff5252" }
+
+# Icons
+icon_info  = ""
+icon_warn  = ""
+icon_error = ""
+
+
+
+# : Picker
+
+[pick]
+border   = { fg = "#89b4fa" }
+active   = { fg = "#a980db", bold = true }
+inactive = { fg = "#9d93ad" }
+
+
+
+# : Input
+
+[input]
+border   = { fg = "#89b4fa" }
+title    = { bold = true }
+value    = { fg = "#cac4d4" }
+selected = { reversed = true }
+
+
+
+# : Completion
+
+[cmp]
+border   = { fg = "#89b4fa" }
+active   = { bg = "#cac4d4", fg = "#141118", bold = true }
+inactive = { fg = "#9d93ad" }
+
+# Icons
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
+
+
+
+# : Task manager
+
+[tasks]
+border  = { fg = "#89b4fa" }
+title   = { bold = true }
+hovered = { fg = "#a980db", bold = true, reversed = true }
+
+
+
+# : Help menu
+
+[help]
+border  = { fg = "#9d93ad" }
+chord   = { fg = "#94e2d5" }
+action  = { fg = "#d7d370" }
+hovered = { reversed = true, bold = true }
+
+
+
+# : File-specific styles
+
+[filetype]
+rules = [
+  # Images
+  { mime = "image/*", fg = "#a980db" },
+
+  # Media
+  { mime = "{audio,video}/*", fg = "#d7d370" },
+
+  # Archives
+  { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ff5252" },
+
+  # Documents
+  { mime = "application/{pdf,doc,rtf}", fg = "#b4befe" },
+
+  # Empty files
+  # { mime = "inode/empty", fg = "#ff5252" },
+
+  # Special files
+  { url = "*", is = "orphan", fg = "#000000", bg = "#ff5252" },
+  { url = "*", is = "exec", fg = "#94e2d5" },
+
+  # Dummy files
+  { url = "*", is = "dummy", fg = "#000000", bg = "#ff5252" },
+  { url = "*/", is = "dummy", fg = "#000000", bg = "#ff5252" },
+
+  # Fallback
+  { url = "*", fg = "#cac4d4" },
+  { url = "*/", fg = "#89b4fa" }
+]
