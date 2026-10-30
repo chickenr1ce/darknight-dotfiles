@@ -63,8 +63,9 @@ Rename a file to `*.tmpl` with `chezmoi chattr +template`, then edit it.
 
 - `~/.config/fish/fish_variables`: fish rewrites it, and it holds absolute
   paths and plugin state. Reproduce it with `fisher install` on a new machine.
-- `~/.config/rofi/{applets,launchers,powermenu,images}`: vendored rofi theme.
-  Only `config.rasi` and `colors/` are ours.
+- `~/.config/rofi` and `~/.config/waybar`: not tracked at all. Rofi here is a
+  vendored theme collection, and waybar was replaced by quickshell. Both are
+  listed in `.chezmoiignore` so `chezmoi add ~/.config` cannot pull them back in.
 - `~/.config/opencode/node_modules` and `~/.config/opencode/service.json`:
   installed packages and a local auth token.
 - `~/.config/quickshell`: has its own repository.

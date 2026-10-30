@@ -1,2 +1,6 @@
 # Repo docs, not a file to install into $HOME.
 README.md
+
+# Not tracked on purpose.
+.config/rofi
+.config/waybar
