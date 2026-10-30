@@ -12,10 +12,9 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + M",
+hl.bind(mainMod .. " + CTRL + M",
     hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(mainMod .. " + CTRL + Q", hl.dsp.exec_cmd("~/.config/quickshell/scripts/restart.sh"))
@@ -24,12 +23,19 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only"))
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m DP-1"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cursor-clip"))
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen("maximized", "toggle"))
-hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float("toggle"))
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
+hl.bind(mainMod .. " + CTRL + F", hl.dsp.window.float("toggle"))
 
 
-hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))
-hl.bind(mainMod .. " + SUPER_R", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))
+-- quickshell binds
+hl.bind(mainMod .. " + CTRL + P", hl.dsp.exec_cmd("quickshell ipc --pid $(pgrep -n -x quickshell) call power toggle"))
+hl.bind(mainMod .. " + SPACE" , hl.dsp.exec_cmd("quickshell ipc --pid $(pgrep -n -x quickshell) call dashboard apps"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("quickshell ipc call lock lock"))
+
+
+
+--hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))
+--hl.bind(mainMod .. " + SUPER_R", hl.dsp.exec_cmd("/home/alexiz/.config/rofi/launchers/type-1/launcher.sh"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left", hl.dsp.focus({

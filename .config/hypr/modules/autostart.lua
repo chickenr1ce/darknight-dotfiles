@@ -17,7 +17,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("cursor-clip --daemon")
     hl.exec_cmd("kbuildsycoca6 --noincremental")
     hl.exec_cmd("easyeffects --gapplication-service")
-    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
+    -- polkit auth is served by the shell's own agent (ADR 0015); no external agent
     hl.exec_cmd("spotify", {
         workspace = "7"
     })

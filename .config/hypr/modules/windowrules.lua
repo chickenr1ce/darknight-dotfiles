@@ -105,3 +105,10 @@ hl.window_rule({
     float = true,
     center = true
 })
+
+-- Quickshell's dashboard animates its own slide; skip the layer fade.
+hl.layer_rule({
+    name  = "quickshell-dashboard-noanim",
+    match = { namespace = "^quickshell-dashboard$" },
+    no_anim = true,
+})

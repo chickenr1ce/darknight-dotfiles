@@ -1,10 +1,26 @@
 {
 	"$schema": "https://opencode.ai/config.json",
+	"references": {
+		"fleet": {
+			"repository": "git@github.com:chickenr1ce/fleet.git",
+			"description": "Private fleet inventory: machines, reachability, per-host quirks, and runbooks. Read when a task involves another machine or remote access."
+		}
+	},
 	"mcp": {
-		"qt-docs": {
-			"type": "remote",
-			"url": "https://qt-docs-mcp.qt.io/mcp",
-			"enabled": true
+		"servers": {
+			"qt-docs": {
+				"type": "remote",
+				"url": "https://qt-docs-mcp.qt.io/mcp"
+			},
+			"hotelist": {
+				"type": "remote",
+				"url": "https://hotelist.com/mcp"
+			},
+			"gridcraft": {
+				"type": "local",
+				"command": ["/home/alexiz/.local/share/gridcraft/gridcraft-cli", "mcp"],
+				"enabled": true
+			}
 		}
 	},
 	"provider": {

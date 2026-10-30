@@ -2,6 +2,12 @@
 
 Questions are READ only. Do not edit files when asked a question unless explicitly stated.
 
+## Subagents
+
+T3 card work: implement on `opencode-go/deepseek-v4.1-flash` high, review on `opencode-go/muse-spark-1.3-contributor` xhigh. One review round; a second only for a High finding.
+
+Write the brief after reading the code: name the contract, the known framework pitfalls, and the acceptance criteria. Implementers iterate on the area's test script and run the repo's full gate once at hand-off. Independent slices run in parallel, each in its own worktree.
+
 ## Shell
 
 The agent's shell tool runs bash (`$0` is `/usr/bin/bash`): POSIX syntax, heredocs, `$?`, and globs all work there. This section only applies to commands the user will paste into their own terminal, which is fish.
@@ -17,6 +23,10 @@ Load the `unslop` skill at session start and apply it to all prose you write: ch
 Share local single-file artifacts (HTML, logs, images) as clickable file links. Check browser connectivity before automating the browser.
 
 The browser tool opens `http` and `https` only, so a local `file://` artifact needs a server: run `python3 -m http.server <port> --bind 127.0.0.1` in the artifact's directory and open the loopback URL. Pass the `tabId` from `browser.open` into `browser.capture`; without it, a capture grabs whichever tab the user is viewing rather than the one just opened.
+
+## Fleet
+
+Machine inventory, reachability, and per-host quirks live in the private `fleet` repo, cloned at `~/fleet` and exposed as the `fleet` OpenCode reference. Read `~/fleet/README.md` before working on or reaching another machine. Tailnet account `alexizfirdaus@`; list peers with `tailscale status`; SSH aliases live in `~/.ssh/config`. The Tailscale name `omarchy` and the SSH alias `thinkbook-15` are the same laptop. Never put credentials in `~/fleet`.
 
 <!-- GIT_SAFETY_START -->
 ## Git Safety
