@@ -4,3 +4,12 @@ README.md
 # Not tracked on purpose.
 .config/rofi
 .config/waybar
+
+# Rendered by scripts/render-theme.sh from the quickshell theme palette.
+# The next palette load overwrites them, so git would churn on every switch.
+.config/btop/themes/theme.theme
+.config/hypr/hyprlock/colors.conf
+.config/hypr/theme.lua
+.config/kitty/theme.conf
+.config/starship.toml
+.config/yazi/theme.toml

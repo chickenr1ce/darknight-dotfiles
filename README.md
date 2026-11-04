@@ -66,6 +66,11 @@ Rename a file to `*.tmpl` with `chezmoi chattr +template`, then edit it.
 - `~/.config/rofi` and `~/.config/waybar`: not tracked at all. Rofi here is a
   vendored theme collection, and waybar was replaced by quickshell. Both are
   listed in `.chezmoiignore` so `chezmoi add ~/.config` cannot pull them back in.
+- Generated theme colors: `~/.config/btop/themes/theme.theme`,
+  `~/.config/hypr/hyprlock/colors.conf`, `~/.config/hypr/theme.lua`,
+  `~/.config/kitty/theme.conf`, `~/.config/starship.toml` and
+  `~/.config/yazi/theme.toml`. `scripts/render-theme.sh` in the quickshell
+  repo rewrites all six on every palette switch.
 - `~/.config/opencode/node_modules` and `~/.config/opencode/service.json`:
   installed packages and a local auth token.
 - `~/.config/quickshell`: has its own repository.
